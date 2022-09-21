@@ -43,6 +43,7 @@ const FILES: &[&str] = &[
     "wavefront/wavefront_compute_affine.c",
     "wavefront/wavefront_compute_affine2p.c",
     "wavefront/wavefront_penalties.c",
+    "wavefront/wavefront_bialign.c",
     "wavefront/wavefront_aligner.c",
     "wavefront/wavefront_backtrace.c",
     "wavefront/wavefront_attributes.c",
@@ -58,7 +59,6 @@ const FILES: &[&str] = &[
     "wavefront/wavefront_heuristic.c",
     "wavefront/wavefront_backtrace_offload.c",
     "wavefront/wavefront_plot.c",
-    "wavefront/wavefront_bialign.c",
 ];
 
 fn main() {
