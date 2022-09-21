@@ -25,7 +25,7 @@ pub enum Heuristic {
 #[derive(Debug, PartialEq, Eq)]
 pub enum AlignmentStatus {
     StatusSuccessful = wfa2::WF_STATUS_SUCCESSFUL as isize,
-    StatusDropped = wfa2::WF_STATUS_HEURISTICALY_DROPPED as isize,
+    StatusDropped = wfa2::WF_STATUS_UNFEASIBLE as isize,
     StatusMaxScoreReached = wfa2::WF_STATUS_MAX_SCORE_REACHED as isize,
     StatusOOM = wfa2::WF_STATUS_OOM as isize,
 }
@@ -34,7 +34,7 @@ impl From<i32> for AlignmentStatus {
     fn from(value: i32) -> Self {
         match value {
             x if x == wfa2::WF_STATUS_SUCCESSFUL as i32 => AlignmentStatus::StatusSuccessful,
-            wfa2::WF_STATUS_HEURISTICALY_DROPPED => AlignmentStatus::StatusDropped,
+            wfa2::WF_STATUS_UNFEASIBLE => AlignmentStatus::StatusDropped,
             wfa2::WF_STATUS_MAX_SCORE_REACHED => AlignmentStatus::StatusMaxScoreReached,
             wfa2::WF_STATUS_OOM => AlignmentStatus::StatusOOM,
             _ => panic!("Unknown alignment status: {}", value),
@@ -160,15 +160,15 @@ impl WFAligner {
     }
 
     pub fn score(&self) -> i32 {
-        unsafe { (*self.inner).cigar.score }
+        unsafe { (*(*self.inner).cigar).score }
     }
 
     pub fn cigar(&self) -> String {
         let cigar_str = unsafe {
-            let begin_offset = (*self.inner).cigar.begin_offset;
+            let begin_offset = (*(*self.inner).cigar).begin_offset;
             let cigar_operations =
-                (*self.inner).cigar.operations.offset(begin_offset as isize) as *const u8;
-            let cigar_length = ((*self.inner).cigar.end_offset - begin_offset) as usize;
+                (*(*self.inner).cigar).operations.offset(begin_offset as isize) as *const u8;
+            let cigar_length = ((*(*self.inner).cigar).end_offset - begin_offset) as usize;
             slice::from_raw_parts(cigar_operations, cigar_length)
         };
         String::from_utf8_lossy(cigar_str).to_string()
