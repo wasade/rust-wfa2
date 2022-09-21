@@ -82,7 +82,7 @@ fn main() {
         let c_file = out_wfa2.join(f);
         cfg.file(&c_file);
         // is that really needed?
-        //println!("cargo:rerun-if-changed={}", wfa2.join(c_file).display());
+        println!("cargo:rerun-if-changed={}", wfa2.join(c_file).display());
     }
     let ignored_macros = IgnoreMacros(
         vec![
