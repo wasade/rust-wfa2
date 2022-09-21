@@ -58,6 +58,7 @@ const FILES: &[&str] = &[
     "wavefront/wavefront_heuristic.c",
     "wavefront/wavefront_backtrace_offload.c",
     "wavefront/wavefront_plot.c",
+    "wavefront/wavefront_bialign.c",
 ];
 
 fn main() {
@@ -80,7 +81,8 @@ fn main() {
     for f in FILES {
         let c_file = out_wfa2.join(f);
         cfg.file(&c_file);
-        println!("cargo:rerun-if-changed={}", wfa2.join(c_file).display());
+        // is that really needed?
+        //println!("cargo:rerun-if-changed={}", wfa2.join(c_file).display());
     }
     let ignored_macros = IgnoreMacros(
         vec![
