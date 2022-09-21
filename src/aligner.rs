@@ -384,7 +384,7 @@ mod tests {
         let mut aligner = aligner_indel();
         let status = aligner.align_end_to_end(PATTERN, TEXT);
         assert_eq!(status, AlignmentStatus::StatusSuccessful);
-        assert_eq!(aligner.score(), -6);
+        assert_eq!(aligner.score(), 6);
     }
 
     #[test]
@@ -392,7 +392,7 @@ mod tests {
         let mut aligner = aligner_edit();
         let status = aligner.align_end_to_end(PATTERN, TEXT);
         assert_eq!(status, AlignmentStatus::StatusSuccessful);
-        assert_eq!(aligner.score(), -4);
+        assert_eq!(aligner.score(), 4);
     }
 
     #[test]
