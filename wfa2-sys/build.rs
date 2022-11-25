@@ -69,9 +69,8 @@ fn main() {
 
     let mut cfg = cc::Build::new();
     cfg.opt_level(3);
+    // for autovectorization
     cfg.flag("-march=native");
-    // use later version of clang that autovectorizes wfa2
-    cfg.compiler("/usr/local/opt/llvm/bin/clang");
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.
     let out = PathBuf::from(env::var("OUT_DIR").unwrap());

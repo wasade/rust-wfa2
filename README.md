@@ -5,6 +5,9 @@ Rust language bindgings for the excellent
 
 Work in progress. Tests and features are not yet complete.
 
+## Autovectorization
+Remember to specify the correct C compiler! For me it is `CC=/usr/local/opt/llvm/bin/clang`.
+
 ## Usage
 
 ```rust
