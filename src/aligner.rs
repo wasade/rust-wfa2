@@ -6,6 +6,7 @@ pub enum MemoryModel {
     MemoryHigh,
     MemoryMed,
     MemoryLow,
+    MemoryUltraLow,
 }
 
 pub enum AlignmentScope {
@@ -58,6 +59,7 @@ impl WFAttributes {
             MemoryModel::MemoryHigh => wfa2::wavefront_memory_t_wavefront_memory_high,
             MemoryModel::MemoryMed => wfa2::wavefront_memory_t_wavefront_memory_med,
             MemoryModel::MemoryLow => wfa2::wavefront_memory_t_wavefront_memory_low,
+            MemoryModel::MemoryUltraLow => wfa2::wavefront_memory_t_wavefront_memory_ultralow,
         };
         self.inner.memory_mode = memory_mode;
         self
