@@ -71,6 +71,7 @@ fn main() {
     cfg.opt_level(3);
     // for autovectorization
     cfg.flag("-march=native");
+    cfg.warnings(false);
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.
     let out = PathBuf::from(env::var("OUT_DIR").unwrap());
