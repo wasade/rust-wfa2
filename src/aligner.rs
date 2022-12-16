@@ -1,7 +1,10 @@
+use serde::{Deserialize, Serialize};
+
 use crate::wfa2;
 use std::ptr;
 use std::slice;
 
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MemoryModel {
     MemoryHigh,
     MemoryMed,
@@ -9,11 +12,13 @@ pub enum MemoryModel {
     MemoryUltraLow,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AlignmentScope {
     Score,
     Alignment,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Heuristic {
     None,
     BandedStatic(i32, i32),
