@@ -375,6 +375,8 @@ mod tests {
         WFAlignerGapAffine::new(6, 4, 2, AlignmentScope::Alignment, MemoryModel::MemoryLow)
     }
 
+    // Corresponding test fails.
+    #[allow(unused)]
     fn aligner_gap_affine_2pieces() -> WFAligner {
         WFAlignerGapAffine2Pieces::new(
             6,
