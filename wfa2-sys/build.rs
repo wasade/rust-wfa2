@@ -81,8 +81,6 @@ fn main() {
     }
     copy_directory("WFA2-lib", &out).unwrap();
 
-    let wfa2 = PathBuf::from("WFA2-lib");
-
     for f in FILES {
         let c_file = out_wfa2.join(f);
         cfg.file(&c_file);

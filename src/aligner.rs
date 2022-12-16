@@ -166,8 +166,9 @@ impl WFAligner {
     pub fn cigar(&self) -> String {
         let cigar_str = unsafe {
             let begin_offset = (*(*self.inner).cigar).begin_offset;
-            let cigar_operations =
-                (*(*self.inner).cigar).operations.offset(begin_offset as isize) as *const u8;
+            let cigar_operations = (*(*self.inner).cigar)
+                .operations
+                .offset(begin_offset as isize) as *const u8;
             let cigar_length = ((*(*self.inner).cigar).end_offset - begin_offset) as usize;
             slice::from_raw_parts(cigar_operations, cigar_length)
         };
@@ -409,10 +410,7 @@ mod tests {
         let status = aligner.align_end_to_end(PATTERN, TEXT);
         assert_eq!(status, AlignmentStatus::StatusSuccessful);
         assert_eq!(aligner.score(), -24);
-        assert_eq!(
-            aligner.cigar(),
-            "MMMXMMMMDMMMMMMMIMMMMMMMMMXMMMMMM"
-        );
+        assert_eq!(aligner.cigar(), "MMMXMMMMDMMMMMMMIMMMMMMMMMXMMMMMM");
         let (a, b, c) = aligner.matching(PATTERN, TEXT);
         assert_eq!(
             format!("{}\n{}\n{}", a, b, c),
