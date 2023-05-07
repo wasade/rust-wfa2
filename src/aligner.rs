@@ -297,7 +297,10 @@ impl WFAlignerGapLinear {
         memory_model: MemoryModel,
     ) -> WFAligner {
         let mut aligner = WFAligner::new(alignment_scope, memory_model);
-        aligner.attributes = WFAttributes::default().linear_penalties(0, mismatch, indel);
+        aligner.attributes = WFAttributes::default()
+            .linear_penalties(0, mismatch, indel)
+            .alignment_scope(alignment_scope)
+            .memory_model(memory_model);
         unsafe {
             aligner.inner = wfa2::wavefront_aligner_new(&mut aligner.attributes.inner);
         }
@@ -317,8 +320,10 @@ impl WFAlignerGapAffine {
         memory_model: MemoryModel,
     ) -> WFAligner {
         let mut aligner = WFAligner::new(alignment_scope, memory_model);
-        aligner.attributes =
-            WFAttributes::default().affine_penalties(0, mismatch, gap_opening, gap_extension);
+        aligner.attributes = WFAttributes::default()
+            .affine_penalties(0, mismatch, gap_opening, gap_extension)
+            .alignment_scope(alignment_scope)
+            .memory_model(memory_model);
         unsafe {
             aligner.inner = wfa2::wavefront_aligner_new(&mut aligner.attributes.inner);
         }
@@ -340,14 +345,20 @@ impl WFAlignerGapAffine2Pieces {
         memory_model: MemoryModel,
     ) -> WFAligner {
         let mut aligner = WFAligner::new(alignment_scope, memory_model);
-        aligner.attributes = WFAttributes::default().affine2p_penalties(
-            0,
-            mismatch,
-            gap_opening1,
-            gap_extension1,
-            gap_opening2,
-            gap_extension2,
-        );
+        aligner.attributes = WFAttributes::default()
+            .affine2p_penalties(
+                0,
+                mismatch,
+                gap_opening1,
+                gap_extension1,
+                gap_opening2,
+                gap_extension2,
+            )
+            .alignment_scope(alignment_scope)
+            .memory_model(memory_model);
+        unsafe {
+            aligner.inner = wfa2::wavefront_aligner_new(&mut aligner.attributes.inner);
+        }
         aligner
     }
 }
@@ -375,8 +386,6 @@ mod tests {
         WFAlignerGapAffine::new(6, 4, 2, AlignmentScope::Alignment, MemoryModel::MemoryLow)
     }
 
-    // Corresponding test fails.
-    #[allow(unused)]
     fn aligner_gap_affine_2pieces() -> WFAligner {
         WFAlignerGapAffine2Pieces::new(
             6,
@@ -427,13 +436,13 @@ mod tests {
         );
     }
 
-    // #[test]
-    // fn test_aligner_gap_affine_2pieces() {
-    //     let mut aligner = aligner_gap_affine_2pieces();
-    //     let status = aligner.align_end_to_end(PATTERN, TEXT);
-    //     assert_eq!(status, AlignmentStatus::StatusSuccessful);
-    //     assert_eq!(aligner.score(), -6);
-    // }
+    #[test]
+    fn test_aligner_gap_affine_2pieces() {
+        let mut aligner = aligner_gap_affine_2pieces();
+        let status = aligner.align_end_to_end(PATTERN, TEXT);
+        assert_eq!(status, AlignmentStatus::StatusSuccessful);
+        assert_eq!(aligner.score(), -24);
+    }
 
     #[test]
     fn test_set_heuristic() {
